@@ -3,359 +3,549 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI ツール動向レポート — 第1回（2026年6月8日）</title>
+  <title>AIツール動向レポート 第1回（2026年6月8日）</title>
   <style>
     :root {
-      --bg: #f9f9f7;
-      --surface: #ffffff;
-      --border: #e0ddd6;
-      --accent: #2c5f8a;
-      --accent-light: #e8f0f8;
-      --text: #1a1a1a;
-      --text-sub: #555;
-      --star3: #c0392b;
-      --star2: #d35400;
-      --star1: #7f8c8d;
-      --back-btn: #f0f0ec;
-      --back-btn-hover: #ddddd8;
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --border: #2a2d3a;
+      --accent: #4f8ef7;
+      --accent2: #7c5cbf;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --ok: #22c55e;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.8;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Meiryo", "Segoe UI", sans-serif;
       font-size: 15px;
+      line-height: 1.75;
+      padding: 0 0 60px;
     }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ヘッダー */
     header {
-      background: var(--accent);
-      color: #fff;
-      padding: 28px 40px 22px;
+      background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 24px 24px;
+      text-align: center;
     }
-    header h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
-    header .meta { font-size: 0.85rem; opacity: 0.85; line-height: 1.6; }
+    header .label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    header .meta { font-size: 13px; color: var(--muted); }
 
-    /* レイアウト */
-    .container { max-width: 900px; margin: 0 auto; padding: 32px 24px 60px; }
+    .container { max-width: 780px; margin: 0 auto; padding: 0 16px; }
 
     /* 目次 */
-    #toc {
+    .toc {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 24px 28px;
-      margin-bottom: 40px;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 28px 0 20px;
     }
-    #toc h2 {
-      font-size: 1rem;
-      font-weight: 700;
+    .toc-title {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 14px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    #toc ul { list-style: none; padding: 0; }
-    #toc > ul > li { margin-bottom: 8px; }
-    #toc > ul > li > a {
       font-weight: 700;
-      font-size: 0.95rem;
     }
-    #toc ul ul { padding-left: 1.4em; margin-top: 4px; }
-    #toc ul ul li { margin-bottom: 3px; }
-    #toc ul ul li a { font-size: 0.88rem; color: var(--text-sub); }
-    #toc ul ul li a:hover { color: var(--accent); }
-    .badge {
-      display: inline-block;
-      font-size: 0.75rem;
+    .toc ol { list-style: none; padding: 0; }
+    .toc > ol > li { margin-bottom: 8px; }
+    .toc > ol > li > a {
+      color: var(--text);
       font-weight: 700;
-      padding: 1px 6px;
-      border-radius: 4px;
-      margin-left: 6px;
-      vertical-align: middle;
+      font-size: 14px;
     }
-    .s3 { background: #fdecea; color: var(--star3); }
-    .s2 { background: #fef3e8; color: var(--star2); }
-    .s1 { background: #f0f0f0; color: var(--star1); }
+    .toc > ol > li > a:hover { color: var(--accent); }
+    .toc ul { list-style: none; padding-left: 16px; margin-top: 4px; }
+    .toc ul li { margin-bottom: 3px; }
+    .toc ul li a { color: var(--muted); font-size: 13px; }
+    .toc ul li a:hover { color: var(--accent); }
+
+    /* 凡例 */
+    .legend {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 24px; font-size: 12px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; color: var(--muted); }
 
     /* セクション */
-    section {
+    .section { margin-top: 32px; }
+    .section-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .section-title { font-size: 17px; font-weight: 700; }
+
+    /* カード */
+    .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 28px 32px;
-      margin-bottom: 28px;
-      scroll-margin-top: 20px;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      scroll-margin-top: 16px;
     }
-    section h2 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--accent);
-      border-bottom: 2px solid var(--accent-light);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-    section h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-top: 24px;
+    .card-head {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 10px;
       margin-bottom: 10px;
-      color: var(--text);
-      scroll-margin-top: 20px;
     }
-    section h3:first-of-type { margin-top: 0; }
-    p { margin-bottom: 12px; }
-    ul, ol { padding-left: 1.6em; margin-bottom: 12px; }
-    li { margin-bottom: 4px; }
-    strong { font-weight: 700; }
+    .card-title { font-size: 14px; font-weight: 700; line-height: 1.4; }
+    .badge {
+      font-size: 11px; font-weight: 700;
+      padding: 2px 8px; border-radius: 20px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .badge-red    { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+    .badge-yellow { background: rgba(245,158,11,0.15); color: var(--warn); border: 1px solid rgba(245,158,11,0.3); }
+    .badge-blue   { background: rgba(79,142,247,0.15); color: var(--accent); border: 1px solid rgba(79,142,247,0.3); }
+    .badge-green  { background: rgba(34,197,94,0.15); color: var(--ok); border: 1px solid rgba(34,197,94,0.3); }
+
+    .card p { font-size: 14px; margin-bottom: 8px; }
+    .card p:last-of-type { margin-bottom: 0; }
 
     /* テーブル */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 14px 0 18px;
-      font-size: 0.88rem;
-    }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0 12px; font-size: 13px; }
     th {
-      background: var(--accent-light);
-      color: var(--accent);
-      font-weight: 700;
+      background: rgba(79,142,247,0.1); color: var(--accent);
+      font-weight: 700; padding: 7px 10px; text-align: left;
+      border: 1px solid var(--border);
+    }
+    td { padding: 7px 10px; border: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+    code {
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px; padding: 1px 5px;
+      font-family: "SF Mono", "Fira Code", monospace; font-size: 13px;
+    }
+
+    .impact {
+      font-size: 13px;
+      color: var(--muted);
+      background: rgba(124,92,191,0.08);
+      border-left: 3px solid var(--accent2);
       padding: 8px 12px;
-      text-align: left;
-      border: 1px solid var(--border);
+      border-radius: 0 6px 6px 0;
+      margin-top: 10px;
     }
-    td {
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      vertical-align: top;
-    }
-    tr:nth-child(even) td { background: #fafaf8; }
+    .impact strong { color: var(--text); }
 
-    /* 戻るボタン */
-    .back-btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 5px 14px;
-      background: var(--back-btn);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 0.82rem;
-      color: var(--text-sub);
-      cursor: pointer;
+    .back-link {
+      display: inline-block; margin-top: 14px;
+      font-size: 12px; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 20px;
+      padding: 3px 12px;
     }
-    .back-btn:hover {
-      background: var(--back-btn-hover);
-      text-decoration: none;
-    }
+    .back-link:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
 
-    /* 注目点テーブル */
-    .watch-table td:first-child { font-weight: 700; width: 40%; }
-
-    /* フッター */
     footer {
-      text-align: center;
-      font-size: 0.82rem;
-      color: var(--text-sub);
-      margin-top: 48px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
+      text-align: center; margin-top: 48px;
+      padding-top: 24px; border-top: 1px solid var(--border);
+      font-size: 12px; color: var(--muted);
     }
+    footer a { color: var(--accent); }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>AI ツール動向レポート — 第1回</h1>
-  <div class="meta">
-    発行日：2026年6月8日　／　収集期間：〜2026年6月8日<br>
-    対象：GitHub Copilot ／ VSCode+Codex ／ Claude Code ／ ChatGPT ／ Claude ／ Manus<br>
-    重要度：<span class="badge s3">★★★ 業務判断直結</span>
-    <span class="badge s2">★★ 近日対応要</span>
-    <span class="badge s1">★ 注視継続</span>
-  </div>
+  <div class="label">Weekly AI Tools Report</div>
+  <h1>AIツール動向レポート 第1回</h1>
+  <div class="meta">2026年6月8日（日）発行　／　対象期間：2026年5月下旬〜6月8日</div>
 </header>
 
 <div class="container">
 
   <!-- 目次 -->
-  <div id="toc">
-    <h2>目次</h2>
-    <ul>
+  <nav class="toc" id="top">
+    <div class="toc-title">目次</div>
+    <ol>
       <li>
-        <a href="#sec-copilot">1. GitHub Copilot</a>
-        <span class="badge s3">★★★</span>
+        <a href="#chatgpt">1. ChatGPT / Codex（OpenAI）</a>
         <ul>
-          <li><a href="#copilot-billing">課金モデルの全面刷新（6月1日施行）</a></li>
-          <li><a href="#copilot-agent">Agent モードの本格化</a></li>
-          <li><a href="#copilot-mai">Microsoft独自モデルのCopilot統合</a></li>
+          <li><a href="#chatgpt-1">Codex が全職種向けに拡張（Sites・役割別プラグイン）</a></li>
+          <li><a href="#chatgpt-2">Codex Windows版 Computer Use リリース</a></li>
+          <li><a href="#chatgpt-3">GPT-5.5 Instant がデフォルトモデルに</a></li>
+          <li><a href="#chatgpt-4">o3（8月26日）・GPT-4.5（6月27日）廃止確定</a></li>
+          <li><a href="#chatgpt-5">ChatGPT メモリ機能の大幅強化</a></li>
+          <li><a href="#chatgpt-6">Pro プラン $100 新設・Codex 利用量変更</a></li>
         </ul>
       </li>
       <li>
-        <a href="#sec-claude">2. Claude Code / Anthropic</a>
-        <span class="badge s3">★★★</span>
+        <a href="#copilot">2. GitHub Copilot</a>
         <ul>
-          <li><a href="#claude-opus48">Claude Opus 4.8 リリース（5月28日）</a></li>
-          <li><a href="#claude-billing">Claude Code の課金構造変更（6月15日施行）</a></li>
-          <li><a href="#claude-features">Claude Code の新機能（v2.1.139）</a></li>
-          <li><a href="#anthropic-ipo">Anthropic IPO</a></li>
+          <li><a href="#copilot-1">AI Credits 課金モデルへ移行（6月1日実施済み）</a></li>
+          <li><a href="#copilot-2">インライン補完は無制限継続</a></li>
+          <li><a href="#copilot-3">Microsoft 独自モデル MAI-Code-1-Flash の統合</a></li>
         </ul>
       </li>
       <li>
-        <a href="#sec-openai">3. OpenAI（ChatGPT / Codex）</a>
-        <span class="badge s2">★★</span>
+        <a href="#claude">3. Claude / Claude Code（Anthropic）</a>
         <ul>
-          <li><a href="#gpt55">GPT-5.5 Instant アップデート（5月28日）</a></li>
-          <li><a href="#codex-biz">Codex の企業向け拡張（6月2日）</a></li>
-          <li><a href="#market-share">市場シェアの変化</a></li>
+          <li><a href="#claude-1">Claude Opus 4.8 リリース</a></li>
+          <li><a href="#claude-2">Agent SDK 課金分離（6月15日実施予定）</a></li>
+          <li><a href="#claude-3">Claude Code v2.1 系アップデート継続</a></li>
         </ul>
       </li>
       <li>
-        <a href="#sec-industry">4. 業界全体の動向</a>
-        <span class="badge s2">★★</span>
+        <a href="#manus">4. Manus</a>
         <ul>
-          <li><a href="#subscription-end">「定額サブスクリプション」モデルの終焉</a></li>
-          <li><a href="#apple-siri">Apple Siri の大幅刷新（WWDC 2026予定）</a></li>
-          <li><a href="#ms-scout">Microsoft Scout</a></li>
+          <li><a href="#manus-1">カスタムドメイン対応・Starter プラン新設</a></li>
+          <li><a href="#manus-2">Airtable コネクタ追加</a></li>
         </ul>
       </li>
-      <li><a href="#sec-watchlist">5. 次回レポートまでの注目点</a></li>
-    </ul>
+      <li>
+        <a href="#gemini">5. Gemini（Google）</a>
+        <ul>
+          <li><a href="#gemini-1">Gemini 2.0 Flash 完全廃止（6月1日）</a></li>
+          <li><a href="#gemini-2">Gemini 3.5 Flash 登場・価格は 2.0 の15倍</a></li>
+          <li><a href="#gemini-3">Gemini 4.0 は6月末リリース予測</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#overview">6. 全体俯瞰：今週のキーメッセージ</a>
+      </li>
+    </ol>
+  </nav>
+
+  <!-- 凡例 -->
+  <div class="legend">
+    <span class="legend-item"><span class="badge badge-red">★★★ 要対応</span> 業務・コスト・契約に直結</span>
+    <span class="legend-item"><span class="badge badge-yellow">★★ 要注目</span> 近日中に評価・対応が必要</span>
+    <span class="legend-item"><span class="badge badge-blue">★ 注視</span> 動向を継続確認</span>
+    <span class="legend-item"><span class="badge badge-green">新機能</span> 新規リリース</span>
   </div>
 
-  <!-- 1. GitHub Copilot -->
-  <section id="sec-copilot">
-    <h2>1. GitHub Copilot <span class="badge s3">★★★</span></h2>
+  <!-- ===== 1. ChatGPT / Codex ===== -->
+  <section class="section" id="chatgpt">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(16,163,127,0.15);">🤖</div>
+      <div class="section-title">1. ChatGPT / Codex（OpenAI）</div>
+    </div>
 
-    <h3 id="copilot-billing">課金モデルの全面刷新（6月1日施行）</h3>
-    <p><strong>最重要変更。</strong>GitHubは2026年6月1日より、全Copilotプランを「リクエスト数ベース」から「<strong>AI Creditsによる従量課金</strong>」へ完全移行した。</p>
-    <table>
-      <thead><tr><th>プラン</th><th>月額</th><th>含まれるAI Credits</th><th>備考</th></tr></thead>
-      <tbody>
-        <tr><td>Copilot Pro</td><td>$10</td><td>一定量含む</td><td>超過分は追加課金</td></tr>
-        <tr><td>Copilot Pro+</td><td>$19</td><td>より多く含む</td><td>上限緩和</td></tr>
-        <tr><td>Copilot Max</td><td>$39</td><td>最大量含む</td><td>新規サインアップは近日再開予定</td></tr>
-      </tbody>
-    </table>
-    <p>コード補完（インライン補完・Next Edit Suggestions）は引き続き無制限。AgentモードやClaude Sonnet・GPT-4o等の高性能モデル使用がCreditを消費する。コミュニティでは「2〜4プロンプトで210 Credits消費」「予測不能なコストになった」という報告が相次いでいる。契約先での利用コストが組織側の予算管理に影響する可能性がある。</p>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="chatgpt-1">
+      <div class="card-head">
+        <div class="card-title">Codex が全職種向けに拡張（Sites・役割別プラグイン）</div>
+        <span class="badge badge-yellow">★★ 要注目</span>
+      </div>
+      <p>2026年6月2日、OpenAI は Codex に6種の役割別プラグイン（データ分析・営業・投資・クリエイティブ等）と、チームで共有できるインタラクティブな Web ページを生成する「Sites」機能を追加。週間アクティブユーザーが500万人を突破し、非開発者（マーケター・アナリスト等）が全体の20%を占めるまで拡大。Sites は Business・Enterprise プラン（$25/人/月〜）のプレビュー提供。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>Codex が「コーディング専用ツール」から「業務全般の自動化ツール」に変質しつつある。契約先での提案・活用範囲が広がる一方、非エンジニア職との差別化が薄まるリスクも認識しておくべき。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
 
-    <h3 id="copilot-agent">Agent モードの本格化</h3>
-    <p>GitHub Copilotは「コード補完ツール」から「<strong>自律型Agentプラットフォーム</strong>」へと位置付けを転換した。2026年5月のアップデートで以下が追加・強化された。</p>
-    <ul>
-      <li><strong>Copilot Agent モード</strong>：自然言語プロンプトからタスクを自動分解し、コード編集・テスト実行・PR作成まで一気通貫で実行</li>
-      <li><strong>Copilot デスクトップアプリ（技術プレビュー）</strong>：Issue・PRを起点にAgentタスクを起動できるスタンドアロンアプリ</li>
-      <li><strong>CLI Autopilot</strong>：ターミナルからAgentを操作する機能</li>
-    </ul>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="chatgpt-2">
+      <div class="card-head">
+        <div class="card-title">Codex Windows版 Computer Use リリース（5月29日）</div>
+        <span class="badge badge-green">新機能</span>
+      </div>
+      <p>Windows アプリケーションを Codex が直接操作（クリック・入力・確認）できる Computer Use 機能が Windows 版 Codex に追加。Mac で開始した作業を iPhone の ChatGPT アプリからリモート継続することも可能に。Codex Profiles（使用統計・トークンアクティビティの可視化）も対象ユーザーに提供開始。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>iPhone から Codex の進行中タスクを確認・継続できる点は、外出中の作業管理に直結。ただし現時点では Mac ホストが起動・オンライン状態である必要がある。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
 
-    <h3 id="copilot-mai">Microsoft独自モデルのCopilot統合</h3>
-    <p>Microsoft Buildカンファレンス（2026年5月）で、Microsoft独自開発モデル <strong>MAI-Code-1-Flash</strong>（コード生成特化）がGitHub CopilotおよびVSCodeに統合されることが発表された。OpenAIへの依存度を下げつつコスト効率を高める狙いがある。</p>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="chatgpt-3">
+      <div class="card-head">
+        <div class="card-title">GPT-5.5 Instant が全ユーザーのデフォルトモデルに（5月5日）</div>
+        <span class="badge badge-blue">★ 注視</span>
+      </div>
+      <p>GPT-5.3 Instant を置き換える形で GPT-5.5 Instant が全プランのデフォルトに。正確性・簡潔さ・画像理解が向上。過去チャットや接続済み Gmail のコンテキストをより効果的に活用するようになった。5月28日のアップデートでは応答スタイルと品質がさらに改善。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>日常的な ChatGPT 利用の品質が底上げされる。特に繰り返し説明が不要になる点は業務効率に直結する。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
+
+    <div class="card" id="chatgpt-4">
+      <div class="card-head">
+        <div class="card-title">o3（8月26日）・GPT-4.5（6月27日）廃止スケジュール確定</div>
+        <span class="badge badge-yellow">★★ 要注目</span>
+      </div>
+      <p>ChatGPT 上での o3 廃止は2026年8月26日、GPT-4.5 廃止は2026年6月27日に確定。いずれも ChatGPT のみの変更で API は継続。有料ユーザーはモデル設定から廃止まで選択可能。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>API 経由で o3 や GPT-4.5 を使用するスクリプト・ツールがあれば影響なし。ChatGPT UI 上でこれらのモデルを指定している場合は移行先モデルを確認しておく。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
+
+    <div class="card" id="chatgpt-5">
+      <div class="card-head">
+        <div class="card-title">ChatGPT メモリ機能の大幅強化（6月4日）</div>
+        <span class="badge badge-green">新機能</span>
+      </div>
+      <p>過去チャット・保存済みメモリ・ファイル・Gmail から関連コンテキストを自動引き出す「Dreaming」ベースの新メモリシステムを導入。応答の下の「Sources」アイコンでどの情報が使われたか確認・編集可能に。Plus・Pro ユーザーは接続済み Gmail アカウントからのメールも参照対象。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>iPhone の ChatGPT アプリで同じ背景説明を繰り返す手間が減る。ただし意図しない過去情報が参照される可能性があるため、重要な判断には「Sources」確認を習慣化すべき。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
+
+    <div class="card" id="chatgpt-6">
+      <div class="card-head">
+        <div class="card-title">Pro プラン $100 新設・Codex 利用量の再設定（4月9日）</div>
+        <span class="badge badge-yellow">★★ 要注目</span>
+      </div>
+      <p>月額 $100 の新 Pro プランが追加（従来の $200 プランは継続）。$100 プランは GPT-5.4 無制限アクセスと Plus の最大10倍の Codex 利用量を含む。Plus（$20）は長時間セッションより週次の安定利用向けにバランス調整。</p>
+      <table>
+        <thead><tr><th>プラン</th><th>月額</th><th>Codex 利用量</th></tr></thead>
+        <tbody>
+          <tr><td>Plus</td><td>$20</td><td>標準（週次安定利用向け）</td></tr>
+          <tr><td>Pro（新）</td><td>$100</td><td>Plus の最大10倍</td></tr>
+          <tr><td>Pro（従来）</td><td>$200</td><td>最大量（継続）</td></tr>
+        </tbody>
+      </table>
+      <div class="impact">
+        <strong>実務影響：</strong>Codex を業務で多用するなら $100 プランが費用対効果の高い選択肢になる可能性がある。現在の Plus プランで Codex 利用上限に達している場合は検討する価値あり。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
   </section>
 
-  <!-- 2. Claude Code / Anthropic -->
-  <section id="sec-claude">
-    <h2>2. Claude Code / Anthropic <span class="badge s3">★★★</span></h2>
+  <!-- ===== 2. GitHub Copilot ===== -->
+  <section class="section" id="copilot">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(79,142,247,0.15);">🐙</div>
+      <div class="section-title">2. GitHub Copilot</div>
+    </div>
 
-    <h3 id="claude-opus48">Claude Opus 4.8 リリース（5月28日）</h3>
-    <p>Anthropicが最新フラッグシップモデル <strong>Claude Opus 4.8</strong> をリリースした。価格は据え置き（入力$5/百万トークン、出力$25/百万トークン）。</p>
-    <ul>
-      <li><strong>エージェントタスクでの判断精度向上</strong>：コードの欠陥を見落とす確率が前バージョン比で約4分の1に低下</li>
-      <li><strong>Fast Mode</strong>：2.5倍速で動作するモードが前モデル比3倍安価に</li>
-      <li><strong>Dynamic Workflows（Claude Code向け）</strong>：1セッションで数百の並列サブエージェントを起動し、数十万行規模のコードベース移行を自動実行できる機能（Enterprise/Team/Maxプラン）</li>
-    </ul>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="copilot-1">
+      <div class="card-head">
+        <div class="card-title">AI Credits 課金モデルへ移行（6月1日実施済み）</div>
+        <span class="badge badge-red">★★★ 要対応</span>
+      </div>
+      <p>2026年6月1日より、Copilot の課金体系がリクエスト数カウントから<strong>トークン使用量ベースの「AI Credits」</strong>に変更。<strong>1 AI Credit = $0.01 USD</strong>。各プランに月次クレジット枠が設定され、Business・Enterprise は組織全体でプール。</p>
+      <table>
+        <thead><tr><th>対象外（無制限）</th><th>対象（Credits 消費）</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>インライン補完<br>次の編集候補（Next Edit Suggestions）</td>
+            <td>Copilot Chat<br>CLI・クラウドエージェント<br>Spaces・Spark<br>サードパーティエージェント<br>コードレビュー（+ Actions 分）</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>コミュニティでは「数プロンプトで大量消費」「予測不能なコストになった」という報告が相次いでいる。</p>
+      <div class="impact">
+        <strong>実務影響（契約先での利用）：</strong>契約先が Copilot Business / Enterprise を導入している場合、エージェントモードや大規模リポジトリ解析を多用するとクレジットを急速消費する。チームへの周知と使用方針の策定が急務。インライン補完中心の利用であれば実質的な影響は限定的。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
 
-    <h3 id="claude-billing">Claude Code の課金構造変更（6月15日施行）</h3>
-    <p><strong>フリーランスとして個人でClaude Codeを使用している場合、直接影響する。</strong></p>
-    <p>2026年6月15日より、<strong>Agent SDK および <code>claude -p</code>（ヘッドレス）の利用がサブスクリプションプールから分離</strong>される。</p>
-    <table>
-      <thead><tr><th>利用形態</th><th>変更後の扱い</th></tr></thead>
-      <tbody>
-        <tr><td>claude.ai（Web/デスクトップ/モバイル）</td><td>変更なし。サブスクリプション内</td></tr>
-        <tr><td>Claude Code TUI（ターミナル/IDE）</td><td>変更なし。サブスクリプション内</td></tr>
-        <tr><td>Agent SDK / <code>claude -p</code>（ヘッドレス）</td><td>新設の「Agent SDK Credit」から消費。月額と同額のクレジット付与、非プール・繰越不可</td></tr>
-        <tr><td>Claude Code GitHub Actions</td><td>Agent SDK Creditから消費</td></tr>
-      </tbody>
-    </table>
-    <p>Proプラン（$20/月）の場合、Agent SDKクレジットも$20分付与されるが、Sonnet 4.6の標準APIレートで換算すると約50タスク/月相当。CI/CDパイプラインや自動化スクリプトを多用している場合は直接APIキー課金への移行を検討すべき。</p>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="copilot-2">
+      <div class="card-head">
+        <div class="card-title">インライン補完・次の編集候補は無制限継続</div>
+        <span class="badge badge-blue">★ 注視</span>
+      </div>
+      <p>有料プランにおいて、IDE 上のインライン補完と次の編集候補（Next Edit Suggestions）は AI Credits 消費の対象外として継続。Copilot を「補完ツール」として使う限り、日常的な開発フローへの影響は最小限。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>VSCode でのコード補完中心の利用であれば、今回の課金変更による直接的なコスト増はない。ただし今後 Agent 機能の利用拡大を検討する際は、クレジット消費量を事前に把握する必要がある。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
 
-    <h3 id="claude-features">Claude Code の新機能（v2.1.139）</h3>
-    <p>2026年5月11日リリース。</p>
-    <ul>
-      <li><strong><code>/goal</code> コマンド追加</strong>：目標を設定するだけでAIが計画立案→コード編集→検証を自動反復</li>
-      <li><strong>Hook機能</strong>：特定タイミングで任意処理を自動実行するカスタムフック</li>
-    </ul>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
-
-    <h3 id="anthropic-ipo">Anthropic IPO</h3>
-    <p>Anthropicが2026年6月初旬に上場申請を行った。企業のAI投資ROIへの疑問が高まる中での上場となり、今後の価格・機能戦略に影響する可能性がある。</p>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="copilot-3">
+      <div class="card-head">
+        <div class="card-title">Microsoft 独自モデル MAI-Code-1-Flash の Copilot 統合</div>
+        <span class="badge badge-blue">★ 注視</span>
+      </div>
+      <p>Microsoft Build（2026年5月）で、Microsoft 独自開発のコード生成特化モデル <strong>MAI-Code-1-Flash</strong> が GitHub Copilot および VSCode に統合されることが発表された。OpenAI への依存度を下げつつコスト効率を高める狙いがある。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>Copilot の基盤モデルが OpenAI 以外に広がることで、モデル品質の変動リスクが生じる。実際の補完精度の変化には注意が必要。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
   </section>
 
-  <!-- 3. OpenAI -->
-  <section id="sec-openai">
-    <h2>3. OpenAI（ChatGPT / Codex） <span class="badge s2">★★</span></h2>
+  <!-- ===== 3. Claude / Claude Code ===== -->
+  <section class="section" id="claude">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(124,92,191,0.15);">🔮</div>
+      <div class="section-title">3. Claude / Claude Code（Anthropic）</div>
+    </div>
 
-    <h3 id="gpt55">GPT-5.5 Instant アップデート（5月28日）</h3>
-    <p>ChatGPTおよびAPIのGPT-5.5 Instantが更新され、レスポンスの読みやすさと品質が改善された。</p>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="claude-1">
+      <div class="card-head">
+        <div class="card-title">Claude Opus 4.8 リリース・Anthropic が最高評価 AI 企業に</div>
+        <span class="badge badge-green">新機能</span>
+      </div>
+      <p>Claude Opus 4.8 がリリースされ、コーディング・推論・長文処理の性能が向上。Anthropic は現在、世界で最も評価の高い AI 企業の一つとして位置づけられており、Claude Mythos レベルのモデルを約150社に拡大提供中。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>Claude Code の基盤モデルが更新されることで、コーディング支援の品質が向上する。特に複雑なリファクタリングや設計レビューでの精度改善が期待できる。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
 
-    <h3 id="codex-biz">Codex の企業向け拡張（6月2日）</h3>
-    <p>OpenAIがCodexに以下を追加した。</p>
-    <ul>
-      <li><strong>ビジネスプラグイン6種</strong>：営業、データ分析、クリエイティブ制作、プロダクトデザイン、株式投資、投資銀行向け</li>
-      <li><strong>Annotations機能</strong>：ドキュメント・スライド・スプレッドシートの特定箇所を指定して修正</li>
-      <li><strong>Sites機能</strong>：計画・分析・アイデアをインタラクティブなWebサイト/アプリに変換</li>
-      <li><strong>ChatGPTへのCodex統合</strong>：数週間以内にChatGPT内でAgentワークフローが利用可能になる予定</li>
-    </ul>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="claude-2">
+      <div class="card-head">
+        <div class="card-title">Agent SDK 課金分離（6月15日実施予定）</div>
+        <span class="badge badge-red">★★★ 要対応</span>
+      </div>
+      <p>2026年6月15日より、Claude Agent SDK・ヘッドレス Claude Code（<code>claude -p</code>）・Claude Code GitHub Actions・サードパーティエージェントが、サブスクリプション枠から分離され、API レートで課金される別枠クレジットに移行。</p>
+      <table>
+        <thead><tr><th>利用形態</th><th>変更後の扱い</th></tr></thead>
+        <tbody>
+          <tr><td>Claude.ai チャット</td><td>変更なし（サブスクリプション内）</td></tr>
+          <tr><td>Claude Code TUI（ターミナル手動実行）</td><td>変更なし（サブスクリプション内）</td></tr>
+          <tr><td>Agent SDK / <code>claude -p</code>（ヘッドレス）</td><td>新設クレジット枠へ移行・繰越不可</td></tr>
+          <tr><td>Claude Code GitHub Actions</td><td>新設クレジット枠へ移行</td></tr>
+        </tbody>
+      </table>
+      <p>月次クレジット目安：Pro $20 / Max 5x $100 / Max 20x $200。使い切ると API 料金で追加課金。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>CI/CD パイプラインや GitHub Actions で Claude Code を自動実行している場合、6月15日以降に予期しない課金が発生する。今すぐ自動実行の有無を確認し、トークン消費量を計測しておく必要がある。手動でのターミナル利用のみであれば影響なし。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
 
-    <h3 id="market-share">市場シェアの変化</h3>
-    <p>ChatGPTのWebトラフィックシェアは2025年2月の76.5%から2026年4月に54.7%へ低下。Geminiが5.6%→27.4%と急伸。週間アクティブユーザーは9億人（2026年2月時点）。</p>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="claude-3">
+      <div class="card-head">
+        <div class="card-title">Claude Code v2.1 系アップデート継続（6月上旬）</div>
+        <span class="badge badge-blue">★ 注視</span>
+      </div>
+      <p>Claude Code は v2.1.165 まで継続的にアップデートが行われており、エージェント動作の安定性向上・JSON ステータス改善・権限管理の信頼性向上・バックグラウンド実行の改善が含まれる。Claude Agent SDK TypeScript 版も同期更新中。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>Claude Code を最新版に保つことで、エージェント実行の安定性が向上する。特にバックグラウンド実行を利用している場合は更新を推奨。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
   </section>
 
-  <!-- 4. 業界全体 -->
-  <section id="sec-industry">
-    <h2>4. 業界全体の動向 <span class="badge s2">★★</span></h2>
+  <!-- ===== 4. Manus ===== -->
+  <section class="section" id="manus">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(245,158,11,0.15);">⚡</div>
+      <div class="section-title">4. Manus</div>
+    </div>
 
-    <h3 id="subscription-end">「定額サブスクリプション」モデルの終焉</h3>
-    <p>GitHub CopilotとAnthropicがほぼ同時期に従量課金へ移行したことは、<strong>AIツールの「食べ放題」時代の終わりを示す構造的変化</strong>である。Agentが人間の何十倍ものトークンを消費できるようになった結果、定額モデルが維持不能になった。フリーランスエンジニアとして複数ツールを使い分けている場合、<strong>各ツールの月次コストが予測困難になる</strong>リスクがある。使用パターンの可視化と予算上限の設定が今後の必須管理項目となる。</p>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="manus-1">
+      <div class="card-head">
+        <div class="card-title">カスタムドメイン対応・Starter プラン新設（$39/月）</div>
+        <span class="badge badge-yellow">★★ 要注目</span>
+      </div>
+      <p>Manus Web Pages にカスタムドメインを設定できるようになった。また Starter プランが $39/月・3,900クレジット/月で新設され、料金体系が整理された。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>Manus で作成したページを独自ドメインで公開できるようになり、クライアントへの成果物提示や外部公開の用途が広がる。プラン選択の見直しも検討する価値あり。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
 
-    <h3 id="apple-siri">Apple Siri の大幅刷新（WWDC 2026予定）</h3>
-    <p>リーク情報によれば、AppleはChatGPT対抗の大幅刷新Siriを準備中。会話型AI、ドキュメント/画像アップロード、会話履歴の永続化、AI検索機能をiOS全体に統合する見込み。iPhoneでのAIツール利用環境が大きく変わる可能性がある。</p>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
-
-    <h3 id="ms-scout">Microsoft Scout</h3>
-    <p>MicrosoftがTeams・Outlook・OneDrive等にまたがって自律的に動作するAgent「Scout」を発表。OpenClawフレームワーク上に構築され、常時バックグラウンドで稼働する。契約先がMicrosoft 365環境の場合、業務フローへの影響を注視すること。</p>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+    <div class="card" id="manus-2">
+      <div class="card-head">
+        <div class="card-title">Airtable コネクタ追加</div>
+        <span class="badge badge-green">新機能</span>
+      </div>
+      <p>Airtable コネクタが追加され、自然言語プロンプトでデータベースクエリ・更新・レポート作成（パイプラインエンリッチメント等）を自動化できるようになった。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>業務データ管理に Airtable を使用している場合、Manus との連携で定型作業の自動化が可能になる。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
   </section>
 
-  <!-- 5. 注目点 -->
-  <section id="sec-watchlist">
-    <h2>5. 次回レポートまでの注目点</h2>
-    <table class="watch-table">
-      <thead><tr><th>項目</th><th>注目理由</th></tr></thead>
-      <tbody>
-        <tr><td>GitHub Copilot AI Creditsの実消費量</td><td>契約先での月次コスト予測に直結</td></tr>
-        <tr><td>Claude Code Agent SDK課金（6月15日施行）</td><td>個人利用コストへの影響</td></tr>
-        <tr><td>Anthropic Mythos-classモデルのリリース</td><td>Opusを超える次世代モデルが「数週間以内」と予告済み</td></tr>
-        <tr><td>Apple WWDC 2026（6月下旬予定）</td><td>iPhoneでのAI利用環境の変化</td></tr>
-        <tr><td>ChatGPT内Codex統合</td><td>VSCode+Codexの代替/補完として評価が必要</td></tr>
-      </tbody>
-    </table>
-    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+  <!-- ===== 5. Gemini ===== -->
+  <section class="section" id="gemini">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(34,197,94,0.15);">💎</div>
+      <div class="section-title">5. Gemini（Google）</div>
+    </div>
+
+    <div class="card" id="gemini-1">
+      <div class="card-head">
+        <div class="card-title">Gemini 2.0 Flash 完全廃止（6月1日）</div>
+        <span class="badge badge-red">★★★ 要対応</span>
+      </div>
+      <p>Gemini 2.0 Flash-001 および Flash-Lite-001 が2026年6月1日に完全廃止。猶予期間なしの即時シャットダウン。API 呼び出しはエラーを返す。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>Gemini API を直接利用するスクリプト・ツールがある場合は即時対応が必要。個人利用の ChatGPT・Claude・Manus 中心の利用であれば直接的な影響はなし。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
+
+    <div class="card" id="gemini-2">
+      <div class="card-head">
+        <div class="card-title">Gemini 3.5 Flash 登場・価格は 2.0 Flash の15倍</div>
+        <span class="badge badge-yellow">★★ 要注目</span>
+      </div>
+      <p>後継の Gemini 3.5 Flash（5月19日リリース）は入力 $1.50/M・出力 $9.00/M と、2.0 Flash（$0.10/$0.40）の約15〜22倍の価格。GAIA Level 2 エージェントタスク完了率は 36.7% → 52.4% に向上。Gemini 2.5 Flash（$0.30/M）は2026年10月16日に廃止予定。</p>
+      <table>
+        <thead><tr><th>モデル</th><th>入力 /1M</th><th>出力 /1M</th><th>状況</th></tr></thead>
+        <tbody>
+          <tr><td>Gemini 2.0 Flash</td><td>$0.10</td><td>$0.40</td><td style="color:var(--danger);">廃止済み（6/1）</td></tr>
+          <tr><td>Gemini 2.5 Flash</td><td>$0.30</td><td>—</td><td style="color:var(--warn);">2026/10/16 廃止予定</td></tr>
+          <tr><td>Gemini 3.5 Flash</td><td>$1.50</td><td>$9.00</td><td style="color:var(--ok);">現行推奨</td></tr>
+        </tbody>
+      </table>
+      <div class="impact">
+        <strong>実務影響：</strong>Gemini API を使った自動化ツールのコストが大幅増加。API 直接利用がなければ影響は軽微。業界全体として「AIツールの値上がりトレンド」が加速しており、各ツールのコスト管理の重要性が増している。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
+
+    <div class="card" id="gemini-3">
+      <div class="card-head">
+        <div class="card-title">Gemini 4.0 は6月末リリース予測（予測市場情報）</div>
+        <span class="badge badge-blue">★ 注視</span>
+      </div>
+      <p>Polymarket の予測市場では Gemini 4.0 の6月末リリースに注目が集まっているが、Google は現時点で公式発表なし。Gemini 3.5 ファミリーの展開が続いている段階。</p>
+      <div class="impact">
+        <strong>実務影響：</strong>現時点では確定情報なし。リリースされた場合は次回レポートで詳報。
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
   </section>
 
-  <div style="text-align:center;margin-top:32px;"><a href="../index.html" style="display:inline-block;padding:8px 20px;background:#2c5f8a;color:#fff;border-radius:6px;font-size:0.88rem;text-decoration:none;">← レポート一覧へ戻る</a></div>
+  <!-- ===== 6. 全体俯瞰 ===== -->
+  <section class="section" id="overview">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(239,68,68,0.15);">📌</div>
+      <div class="section-title">6. 全体俯瞰：今週のキーメッセージ</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="margin-bottom:10px;">「定額サブスクリプション」モデルの終焉が始まった</div>
+      <p>GitHub Copilot（6月1日）と Anthropic Claude（6月15日）がほぼ同時期に従量課金へ移行したことは、<strong>AIツールの「食べ放題」時代の終わりを示す構造的変化</strong>である。Agent が人間の何十倍ものトークンを消費できるようになった結果、定額モデルが維持不能になった。</p>
+      <p>フリーランスエンジニアとして複数ツールを使い分けている場合、<strong>各ツールの月次コストが予測困難になる</strong>リスクがある。使用パターンの可視化と予算上限の設定が今後の必須管理項目となる。</p>
+      <div class="impact">
+        <strong>今週の最優先確認事項：</strong><br>
+        1. 契約先での GitHub Copilot の Agent 機能利用状況を確認し、クレジット消費量を把握する<br>
+        2. Claude Code を CI/CD や GitHub Actions で自動実行していないか確認する（6月15日まで）<br>
+        3. Gemini API を直接利用するスクリプトがある場合は移行先モデルを確認する
+      </div>
+      <a href="#top" class="back-link">▲ 目次へ戻る</a>
+    </div>
+  </section>
+
   <footer>
-    AI ツール動向レポート 第1回 ／ 次回予定：2026年6月15日（月）09:00
+    <p>
+      <a href="../index.html">← レポート一覧へ戻る</a>
+      &nbsp;｜&nbsp;
+      次回配信：2026年6月15日（月）09:00 JST
+    </p>
+    <p style="margin-top:8px;">情報は各公式リリースノート・信頼性の高いメディアをもとに作成。予告なく変更される場合があります。</p>
   </footer>
 
 </div>
