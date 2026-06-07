@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI ツール動向レポート — 第1回（2026年6月8日）</title>
+  <style>
+    :root {
+      --bg: #f9f9f7;
+      --surface: #ffffff;
+      --border: #e0ddd6;
+      --accent: #2c5f8a;
+      --accent-light: #e8f0f8;
+      --text: #1a1a1a;
+      --text-sub: #555;
+      --star3: #c0392b;
+      --star2: #d35400;
+      --star1: #7f8c8d;
+      --back-btn: #f0f0ec;
+      --back-btn-hover: #ddddd8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ヘッダー */
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 28px 40px 22px;
+    }
+    header h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+    header .meta { font-size: 0.85rem; opacity: 0.85; line-height: 1.6; }
+
+    /* レイアウト */
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 24px 60px; }
+
+    /* 目次 */
+    #toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+    #toc h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    #toc ul { list-style: none; padding: 0; }
+    #toc > ul > li { margin-bottom: 8px; }
+    #toc > ul > li > a {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    #toc ul ul { padding-left: 1.4em; margin-top: 4px; }
+    #toc ul ul li { margin-bottom: 3px; }
+    #toc ul ul li a { font-size: 0.88rem; color: var(--text-sub); }
+    #toc ul ul li a:hover { color: var(--accent); }
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .s3 { background: #fdecea; color: var(--star3); }
+    .s2 { background: #fef3e8; color: var(--star2); }
+    .s1 { background: #f0f0f0; color: var(--star1); }
+
+    /* セクション */
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      scroll-margin-top: 20px;
+    }
+    section h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent-light);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    section h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 10px;
+      color: var(--text);
+      scroll-margin-top: 20px;
+    }
+    section h3:first-of-type { margin-top: 0; }
+    p { margin-bottom: 12px; }
+    ul, ol { padding-left: 1.6em; margin-bottom: 12px; }
+    li { margin-bottom: 4px; }
+    strong { font-weight: 700; }
+
+    /* テーブル */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 18px;
+      font-size: 0.88rem;
+    }
+    th {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 700;
+      padding: 8px 12px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    td {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #fafaf8; }
+
+    /* 戻るボタン */
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 5px 14px;
+      background: var(--back-btn);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      cursor: pointer;
+    }
+    .back-btn:hover {
+      background: var(--back-btn-hover);
+      text-decoration: none;
+    }
+
+    /* 注目点テーブル */
+    .watch-table td:first-child { font-weight: 700; width: 40%; }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>AI ツール動向レポート — 第1回</h1>
+  <div class="meta">
+    発行日：2026年6月8日　／　収集期間：〜2026年6月8日<br>
+    対象：GitHub Copilot ／ VSCode+Codex ／ Claude Code ／ ChatGPT ／ Claude ／ Manus<br>
+    重要度：<span class="badge s3">★★★ 業務判断直結</span>
+    <span class="badge s2">★★ 近日対応要</span>
+    <span class="badge s1">★ 注視継続</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- 目次 -->
+  <div id="toc">
+    <h2>目次</h2>
+    <ul>
+      <li>
+        <a href="#sec-copilot">1. GitHub Copilot</a>
+        <span class="badge s3">★★★</span>
+        <ul>
+          <li><a href="#copilot-billing">課金モデルの全面刷新（6月1日施行）</a></li>
+          <li><a href="#copilot-agent">Agent モードの本格化</a></li>
+          <li><a href="#copilot-mai">Microsoft独自モデルのCopilot統合</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#sec-claude">2. Claude Code / Anthropic</a>
+        <span class="badge s3">★★★</span>
+        <ul>
+          <li><a href="#claude-opus48">Claude Opus 4.8 リリース（5月28日）</a></li>
+          <li><a href="#claude-billing">Claude Code の課金構造変更（6月15日施行）</a></li>
+          <li><a href="#claude-features">Claude Code の新機能（v2.1.139）</a></li>
+          <li><a href="#anthropic-ipo">Anthropic IPO</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#sec-openai">3. OpenAI（ChatGPT / Codex）</a>
+        <span class="badge s2">★★</span>
+        <ul>
+          <li><a href="#gpt55">GPT-5.5 Instant アップデート（5月28日）</a></li>
+          <li><a href="#codex-biz">Codex の企業向け拡張（6月2日）</a></li>
+          <li><a href="#market-share">市場シェアの変化</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#sec-industry">4. 業界全体の動向</a>
+        <span class="badge s2">★★</span>
+        <ul>
+          <li><a href="#subscription-end">「定額サブスクリプション」モデルの終焉</a></li>
+          <li><a href="#apple-siri">Apple Siri の大幅刷新（WWDC 2026予定）</a></li>
+          <li><a href="#ms-scout">Microsoft Scout</a></li>
+        </ul>
+      </li>
+      <li><a href="#sec-watchlist">5. 次回レポートまでの注目点</a></li>
+    </ul>
+  </div>
+
+  <!-- 1. GitHub Copilot -->
+  <section id="sec-copilot">
+    <h2>1. GitHub Copilot <span class="badge s3">★★★</span></h2>
+
+    <h3 id="copilot-billing">課金モデルの全面刷新（6月1日施行）</h3>
+    <p><strong>最重要変更。</strong>GitHubは2026年6月1日より、全Copilotプランを「リクエスト数ベース」から「<strong>AI Creditsによる従量課金</strong>」へ完全移行した。</p>
+    <table>
+      <thead><tr><th>プラン</th><th>月額</th><th>含まれるAI Credits</th><th>備考</th></tr></thead>
+      <tbody>
+        <tr><td>Copilot Pro</td><td>$10</td><td>一定量含む</td><td>超過分は追加課金</td></tr>
+        <tr><td>Copilot Pro+</td><td>$19</td><td>より多く含む</td><td>上限緩和</td></tr>
+        <tr><td>Copilot Max</td><td>$39</td><td>最大量含む</td><td>新規サインアップは近日再開予定</td></tr>
+      </tbody>
+    </table>
+    <p>コード補完（インライン補完・Next Edit Suggestions）は引き続き無制限。AgentモードやClaude Sonnet・GPT-4o等の高性能モデル使用がCreditを消費する。コミュニティでは「2〜4プロンプトで210 Credits消費」「予測不能なコストになった」という報告が相次いでいる。契約先での利用コストが組織側の予算管理に影響する可能性がある。</p>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+
+    <h3 id="copilot-agent">Agent モードの本格化</h3>
+    <p>GitHub Copilotは「コード補完ツール」から「<strong>自律型Agentプラットフォーム</strong>」へと位置付けを転換した。2026年5月のアップデートで以下が追加・強化された。</p>
+    <ul>
+      <li><strong>Copilot Agent モード</strong>：自然言語プロンプトからタスクを自動分解し、コード編集・テスト実行・PR作成まで一気通貫で実行</li>
+      <li><strong>Copilot デスクトップアプリ（技術プレビュー）</strong>：Issue・PRを起点にAgentタスクを起動できるスタンドアロンアプリ</li>
+      <li><strong>CLI Autopilot</strong>：ターミナルからAgentを操作する機能</li>
+    </ul>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+
+    <h3 id="copilot-mai">Microsoft独自モデルのCopilot統合</h3>
+    <p>Microsoft Buildカンファレンス（2026年5月）で、Microsoft独自開発モデル <strong>MAI-Code-1-Flash</strong>（コード生成特化）がGitHub CopilotおよびVSCodeに統合されることが発表された。OpenAIへの依存度を下げつつコスト効率を高める狙いがある。</p>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+  </section>
+
+  <!-- 2. Claude Code / Anthropic -->
+  <section id="sec-claude">
+    <h2>2. Claude Code / Anthropic <span class="badge s3">★★★</span></h2>
+
+    <h3 id="claude-opus48">Claude Opus 4.8 リリース（5月28日）</h3>
+    <p>Anthropicが最新フラッグシップモデル <strong>Claude Opus 4.8</strong> をリリースした。価格は据え置き（入力$5/百万トークン、出力$25/百万トークン）。</p>
+    <ul>
+      <li><strong>エージェントタスクでの判断精度向上</strong>：コードの欠陥を見落とす確率が前バージョン比で約4分の1に低下</li>
+      <li><strong>Fast Mode</strong>：2.5倍速で動作するモードが前モデル比3倍安価に</li>
+      <li><strong>Dynamic Workflows（Claude Code向け）</strong>：1セッションで数百の並列サブエージェントを起動し、数十万行規模のコードベース移行を自動実行できる機能（Enterprise/Team/Maxプラン）</li>
+    </ul>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+
+    <h3 id="claude-billing">Claude Code の課金構造変更（6月15日施行）</h3>
+    <p><strong>フリーランスとして個人でClaude Codeを使用している場合、直接影響する。</strong></p>
+    <p>2026年6月15日より、<strong>Agent SDK および <code>claude -p</code>（ヘッドレス）の利用がサブスクリプションプールから分離</strong>される。</p>
+    <table>
+      <thead><tr><th>利用形態</th><th>変更後の扱い</th></tr></thead>
+      <tbody>
+        <tr><td>claude.ai（Web/デスクトップ/モバイル）</td><td>変更なし。サブスクリプション内</td></tr>
+        <tr><td>Claude Code TUI（ターミナル/IDE）</td><td>変更なし。サブスクリプション内</td></tr>
+        <tr><td>Agent SDK / <code>claude -p</code>（ヘッドレス）</td><td>新設の「Agent SDK Credit」から消費。月額と同額のクレジット付与、非プール・繰越不可</td></tr>
+        <tr><td>Claude Code GitHub Actions</td><td>Agent SDK Creditから消費</td></tr>
+      </tbody>
+    </table>
+    <p>Proプラン（$20/月）の場合、Agent SDKクレジットも$20分付与されるが、Sonnet 4.6の標準APIレートで換算すると約50タスク/月相当。CI/CDパイプラインや自動化スクリプトを多用している場合は直接APIキー課金への移行を検討すべき。</p>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+
+    <h3 id="claude-features">Claude Code の新機能（v2.1.139）</h3>
+    <p>2026年5月11日リリース。</p>
+    <ul>
+      <li><strong><code>/goal</code> コマンド追加</strong>：目標を設定するだけでAIが計画立案→コード編集→検証を自動反復</li>
+      <li><strong>Hook機能</strong>：特定タイミングで任意処理を自動実行するカスタムフック</li>
+    </ul>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+
+    <h3 id="anthropic-ipo">Anthropic IPO</h3>
+    <p>Anthropicが2026年6月初旬に上場申請を行った。企業のAI投資ROIへの疑問が高まる中での上場となり、今後の価格・機能戦略に影響する可能性がある。</p>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+  </section>
+
+  <!-- 3. OpenAI -->
+  <section id="sec-openai">
+    <h2>3. OpenAI（ChatGPT / Codex） <span class="badge s2">★★</span></h2>
+
+    <h3 id="gpt55">GPT-5.5 Instant アップデート（5月28日）</h3>
+    <p>ChatGPTおよびAPIのGPT-5.5 Instantが更新され、レスポンスの読みやすさと品質が改善された。</p>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+
+    <h3 id="codex-biz">Codex の企業向け拡張（6月2日）</h3>
+    <p>OpenAIがCodexに以下を追加した。</p>
+    <ul>
+      <li><strong>ビジネスプラグイン6種</strong>：営業、データ分析、クリエイティブ制作、プロダクトデザイン、株式投資、投資銀行向け</li>
+      <li><strong>Annotations機能</strong>：ドキュメント・スライド・スプレッドシートの特定箇所を指定して修正</li>
+      <li><strong>Sites機能</strong>：計画・分析・アイデアをインタラクティブなWebサイト/アプリに変換</li>
+      <li><strong>ChatGPTへのCodex統合</strong>：数週間以内にChatGPT内でAgentワークフローが利用可能になる予定</li>
+    </ul>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+
+    <h3 id="market-share">市場シェアの変化</h3>
+    <p>ChatGPTのWebトラフィックシェアは2025年2月の76.5%から2026年4月に54.7%へ低下。Geminiが5.6%→27.4%と急伸。週間アクティブユーザーは9億人（2026年2月時点）。</p>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+  </section>
+
+  <!-- 4. 業界全体 -->
+  <section id="sec-industry">
+    <h2>4. 業界全体の動向 <span class="badge s2">★★</span></h2>
+
+    <h3 id="subscription-end">「定額サブスクリプション」モデルの終焉</h3>
+    <p>GitHub CopilotとAnthropicがほぼ同時期に従量課金へ移行したことは、<strong>AIツールの「食べ放題」時代の終わりを示す構造的変化</strong>である。Agentが人間の何十倍ものトークンを消費できるようになった結果、定額モデルが維持不能になった。フリーランスエンジニアとして複数ツールを使い分けている場合、<strong>各ツールの月次コストが予測困難になる</strong>リスクがある。使用パターンの可視化と予算上限の設定が今後の必須管理項目となる。</p>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+
+    <h3 id="apple-siri">Apple Siri の大幅刷新（WWDC 2026予定）</h3>
+    <p>リーク情報によれば、AppleはChatGPT対抗の大幅刷新Siriを準備中。会話型AI、ドキュメント/画像アップロード、会話履歴の永続化、AI検索機能をiOS全体に統合する見込み。iPhoneでのAIツール利用環境が大きく変わる可能性がある。</p>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+
+    <h3 id="ms-scout">Microsoft Scout</h3>
+    <p>MicrosoftがTeams・Outlook・OneDrive等にまたがって自律的に動作するAgent「Scout」を発表。OpenClawフレームワーク上に構築され、常時バックグラウンドで稼働する。契約先がMicrosoft 365環境の場合、業務フローへの影響を注視すること。</p>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+  </section>
+
+  <!-- 5. 注目点 -->
+  <section id="sec-watchlist">
+    <h2>5. 次回レポートまでの注目点</h2>
+    <table class="watch-table">
+      <thead><tr><th>項目</th><th>注目理由</th></tr></thead>
+      <tbody>
+        <tr><td>GitHub Copilot AI Creditsの実消費量</td><td>契約先での月次コスト予測に直結</td></tr>
+        <tr><td>Claude Code Agent SDK課金（6月15日施行）</td><td>個人利用コストへの影響</td></tr>
+        <tr><td>Anthropic Mythos-classモデルのリリース</td><td>Opusを超える次世代モデルが「数週間以内」と予告済み</td></tr>
+        <tr><td>Apple WWDC 2026（6月下旬予定）</td><td>iPhoneでのAI利用環境の変化</td></tr>
+        <tr><td>ChatGPT内Codex統合</td><td>VSCode+Codexの代替/補完として評価が必要</td></tr>
+      </tbody>
+    </table>
+    <a class="back-btn" href="#toc">▲ 目次へ戻る</a>
+  </section>
+
+  <div style="text-align:center;margin-top:32px;"><a href="../index.html" style="display:inline-block;padding:8px 20px;background:#2c5f8a;color:#fff;border-radius:6px;font-size:0.88rem;text-decoration:none;">← レポート一覧へ戻る</a></div>
+  <footer>
+    AI ツール動向レポート 第1回 ／ 次回予定：2026年6月15日（月）09:00
+  </footer>
+
+</div>
+</body>
+</html>

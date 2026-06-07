@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI ツール動向レポート</title>
+  <style>
+    :root {
+      --bg: #f9f9f7;
+      --surface: #ffffff;
+      --border: #e0ddd6;
+      --accent: #2c5f8a;
+      --accent-light: #e8f0f8;
+      --text: #1a1a1a;
+      --text-sub: #555;
+      --s3: #c0392b;
+      --s2: #d35400;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 28px 40px 22px;
+    }
+    header h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    header p { font-size: 0.85rem; opacity: 0.85; }
+
+    .container { max-width: 760px; margin: 0 auto; padding: 40px 24px 60px; }
+
+    .desc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 24px;
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      line-height: 1.7;
+    }
+    .desc strong { color: var(--text); }
+
+    h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 14px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .report-list { list-style: none; }
+    .report-list li {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      transition: box-shadow 0.15s;
+    }
+    .report-list li:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .report-list a {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      gap: 16px;
+    }
+    .report-num {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      background: var(--accent);
+      border-radius: 4px;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .report-date {
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      white-space: nowrap;
+    }
+    .report-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      flex: 1;
+    }
+    .report-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .s3 { background: #fdecea; color: var(--s3); }
+    .s2 { background: #fef3e8; color: var(--s2); }
+
+    footer {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>AI ツール動向レポート</h1>
+  <p>GitHub Copilot / VSCode+Codex / Claude Code / ChatGPT / Claude / Manus の重要変化を毎週まとめます</p>
+</header>
+
+<div class="container">
+
+  <div class="desc">
+    <strong>対象ツール：</strong>GitHub Copilot・VSCode+Codex・Claude Code・Claudeアプリ・ChatGPT・Manus<br>
+    <strong>更新頻度：</strong>毎週月曜日<br>
+    <strong>重要度：</strong>
+    <span class="badge s3">★★★ 業務判断直結</span>
+    <span class="badge s2">★★ 近日対応要</span>
+  </div>
+
+  <h2>レポート一覧</h2>
+
+  <ul class="report-list">
+    <li>
+      <a href="reports/20260608.html">
+        <span class="report-num">第1回</span>
+        <span class="report-date">2026年6月8日</span>
+        <span class="report-title">GitHub Copilot 課金刷新・Claude Opus 4.8・Codex企業向け拡張 ほか</span>
+        <span class="report-badges">
+          <span class="badge s3">★★★ Copilot課金変更</span>
+          <span class="badge s3">★★★ Claude課金変更</span>
+        </span>
+      </a>
+    </li>
+  </ul>
+
+</div>
+
+<footer>
+  AI ツール動向レポート ／ 次回更新：2026年6月15日（月）
+</footer>
+
+</body>
+</html>
